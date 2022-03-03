@@ -1,0 +1,83 @@
+@import "_nullstyle.scss";
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;1,400&display=swap");
+/*----------var------------*/
+$ff: "Raleway", sans-serif;
+$color: #303030;
+$bgc: #f0f0f0;
+$fw: 400;
+$fz: 14px;
+$lh: 135%;
+$container: 1200px;
+/*----------var------------*/
+
+/*----------media------------*/
+$pc: 1440px;
+$lp: 1024px;
+$tb: 768px;
+$mb: 576px;
+$ms: 425px;
+/*----------media------------*/
+
+/*----------mixins------------*/
+$maxWidth: 1920;
+@mixin adaptiv-font($pcSize, $mobSize) {
+   $addSize: $pcSize - $mobSize;
+   $maxWidth: $maxWidth - 320;
+   font-size: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth}));
+}
+@mixin flex {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+@mixin flex-card($gap) {
+   display: flex;
+   justify-content: center;
+   gap: $gap;
+   flex-wrap: wrap;
+}
+
+/*----------mixins------------*/
+
+::-webkit-scrollbar {
+   width: 10px;
+}
+::-webkit-scrollbar-thumb {
+   background-color: #c4c4c4;
+   border-radius: 3px;
+}
+
+/*----------tags------------*/
+html {
+   scroll-behavior: smooth;
+}
+body {
+   font-family: $ff;
+   background-color: $bgc;
+   color: $color;
+   font-weight: $fw;
+   font-size: $fz;
+   line-height: $lh;
+   &.lock {
+      overflow: hidden;
+   }
+}
+img {
+   max-width: 100%;
+}
+/*----------tags------------*/
+
+/*----------general------------*/
+
+.wrapper {
+   width: 100%;
+   min-height: 100vh;
+   overflow-x: hidden;
+   display: flex;
+   flex-direction: column;
+}
+.main {
+   flex: 1 1 auto;
+}
+
+/*----------general------------*/
