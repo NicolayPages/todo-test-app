@@ -3,7 +3,6 @@ import { ChangeEvent, useState } from 'react';
 import changeIcon from '../../assets/images/change.png';
 import completeIcon from '../../assets/images/complete.png';
 import deleteIcon from '../../assets/images/delete.png';
-import MiniLoader from '../../components/MiniLoader/MiniLoader';
 import s from './Todo.module.scss';
 
 type PropsType = {
