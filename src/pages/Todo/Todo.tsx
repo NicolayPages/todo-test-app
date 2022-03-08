@@ -1,12 +1,12 @@
+import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Paginator from '../../components/Paginator/Paginator';
 import Preloader from '../../components/Preloader/Preloader';
 import { addTask, changeTask, completeTask, deleteTask, requestTasks } from '../../redux/reducers/todo-reducer';
-import { getIsExpectation, getIsFetching, getLimit, getPage, getTasks, getTotalCount } from '../../selectors/todo-selectors';
+import { getIsFetching, getLimit, getPage, getTasks, getTotalCount } from '../../selectors/todo-selectors';
 import { TaskType } from '../../types/types';
 import { Form } from './Form';
-import * as React from 'react';
 import { Task } from './Task';
 import s from './Todo.module.scss';
 
@@ -17,14 +17,15 @@ const Todo: React.FC = React.memo(() => {
 
    const tasks = useSelector(getTasks)
    const isFetching = useSelector(getIsFetching)
-   const isExpectation = useSelector(getIsExpectation)
    const page = useSelector(getPage)
    const limit = useSelector(getLimit)
    const totalCount = useSelector(getTotalCount)
    let dispatch = useDispatch()
 
    useEffect(() => {
-      dispatch(requestTasks(page, limit))
+      if (tasks.length == 0) {
+         dispatch(requestTasks(page, limit))
+      }
    }, []);
 
 
@@ -57,7 +58,6 @@ const Todo: React.FC = React.memo(() => {
          deleteTask={onDeleteTask}
          completeTask={onCompleteTask}
          changeTask={onChangeTask}
-         isExpectation={isExpectation}
       />)
 
    return (

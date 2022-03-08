@@ -6,9 +6,6 @@ export const getTasks = (state: AppStateType) => {
 export const getIsFetching = (state: AppStateType) => {
    return state.todo.isFetching
 };
-export const getIsExpectation = (state: AppStateType) => {
-   return state.todo.isExpectation
-};
 export const getLimit = (state: AppStateType) => {
    return state.todo.limit
 };

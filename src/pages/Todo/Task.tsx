@@ -9,7 +9,6 @@ type PropsType = {
    title: string
    completed: boolean
    id: number
-   isExpectation: any
    deleteTask: (id: number) => void
    completeTask: (id: number) => void
    changeTask: (id: number, value: string) => void
@@ -17,7 +16,7 @@ type PropsType = {
 
 export const Task: React.FC<PropsType> = React.memo((props) => {
 
-   const { title, id, completed, deleteTask, completeTask, changeTask, isExpectation } = props
+   const { title, id, completed, deleteTask, completeTask, changeTask } = props
 
    let [editMode, setEditMode] = useState(false)
    let [value, setValue] = useState(title)
@@ -64,14 +63,14 @@ export const Task: React.FC<PropsType> = React.memo((props) => {
          </div>
          <div className={s.actions}>
             {!completed &&
-               <button disabled={isExpectation.some((id: number | null) => id === id)} onClick={onEditMode} className={s.btn}>
+               <button onClick={onEditMode} className={s.btn}>
                   <img src={changeIcon} alt="change" />
                </button>}
             {!completed &&
-               <button disabled={isExpectation.some((id: number | null) => id === id)} onClick={onCompleteTask} className={s.btn}>
+               <button onClick={onCompleteTask} className={s.btn}>
                   <img src={completeIcon} alt="complete" />
                </button>}
-            <button disabled={isExpectation.some((id: number | null) => id === id)} onClick={onDeleteTask} className={s.btn}>
+            <button onClick={onDeleteTask} className={s.btn}>
                <img src={deleteIcon} alt="delete" />
             </button>
          </div>

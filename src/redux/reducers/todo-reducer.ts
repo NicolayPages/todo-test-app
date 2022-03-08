@@ -7,7 +7,7 @@ import { showError } from './errors-reducer';
 
 type InitialStateType = typeof initialState
 type ActionTypes = InferActionsTypes<typeof actions>;
-
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
 
 
 let initialState = {
@@ -16,7 +16,6 @@ let initialState = {
    totalCount: 0,
    page: 1,
    isFetching: false,
-   isExpectation: [] as any,
 };
 
 const todoReducer = (state = initialState, action: ActionTypes): InitialStateType => {
@@ -39,13 +38,6 @@ const todoReducer = (state = initialState, action: ActionTypes): InitialStateTyp
          return {
             ...state,
             isFetching: action.isFetching,
-         };
-      case 'IS_EXPECTATION':
-         return {
-            ...state,
-            isExpectation: action.isExpectation
-               ? [...state.isExpectation, action.id]
-               : state.isExpectation.filter((id: number) => id != action.id)
          };
       case 'ADD_TASK':
          let newTask = {
@@ -91,7 +83,6 @@ const todoReducer = (state = initialState, action: ActionTypes): InitialStateTyp
 export const actions = {
    setTasks: (tasks: Array<TaskType>) => ({ type: 'SET_TASKS', tasks } as const),
    toggleIsFetching: (isFetching: boolean) => ({ type: 'IS_FETCHING', isFetching } as const),
-   toggleIsExpectation: (isExpectation: boolean, id: number) => ({ type: 'IS_EXPECTATION', isExpectation, id } as const),
    setTotalCount: (totalCount: number) => ({ type: 'SET_TOTAL_COUNT', totalCount } as const),
    setPage: (page: number) => ({ type: 'SET_PAGE', page } as const),
    addTask: (task: TaskType, taskId: number) => ({ type: 'ADD_TASK', payload: { task, taskId } } as const),
@@ -100,9 +91,6 @@ export const actions = {
    deleteTask: (taskId: number) => ({ type: 'DELETE_TASK', taskId } as const),
 }
 
-
-
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
 
 
 export const requestTasks = (page: number, limit: number): ThunkType => async (dispatch) => {
@@ -128,37 +116,28 @@ export const addTask = (task: TaskType): ThunkType => async (dispatch) => {
 };
 export const deleteTask = (taskId: number): ThunkType => async (dispatch) => {
    try {
-      dispatch(actions.toggleIsExpectation(true, taskId))
       let response = await todoAPI.deleteTasks(taskId)
       if (response.status == 200) {
          dispatch(actions.deleteTask(taskId))
       }
    } catch (error: any) {
       dispatch(showError(error.message))
-   } finally {
-      dispatch(actions.toggleIsExpectation(false, taskId))
    }
 };
 export const changeTask = (taskId: number, taskTitle: string): ThunkType => async (dispatch) => {
    try {
-      dispatch(actions.toggleIsExpectation(true, taskId))
       let data = await todoAPI.changeTasks(taskId, taskTitle)
       dispatch(actions.changeTask(data.id, data.body.title))
    } catch (error: any) {
       dispatch(showError(error.message))
-   } finally {
-      dispatch(actions.toggleIsExpectation(false, taskId))
    }
 };
 export const completeTask = (taskId: number, complete: boolean): ThunkType => async (dispatch) => {
    try {
-      dispatch(actions.toggleIsExpectation(true, taskId))
       let data = await todoAPI.completeTasks(taskId, complete)
       dispatch(actions.completeTask(data.id, data.body.completed))
    } catch (error: any) {
       dispatch(showError(error.message))
-   } finally {
-      dispatch(actions.toggleIsExpectation(false, taskId))
    }
 };
 
