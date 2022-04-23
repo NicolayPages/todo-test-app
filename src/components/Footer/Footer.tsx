@@ -5,7 +5,7 @@ const Footer: React.FC = React.memo(() => {
    return (
       <div className={s.wrapper}>
          <div className={s.container}>
-            <p>@Copyright Test Task for WelbeX company.</p>
+            <p>@Copyright Test Task for WelbeX</p>
          </div>
       </div>
    )
